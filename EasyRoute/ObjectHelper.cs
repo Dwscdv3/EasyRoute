@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using static EasyRoute.Utils;
 
-namespace EasyRoute.Extension
+namespace EasyRoute.Extensions
 {
     public static class ObjectHelper
     {
