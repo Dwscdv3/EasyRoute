@@ -3,7 +3,7 @@
 This project is designed for call methods from a URI.
 
 Warning: This project may be very buggy at this time. Use it at your own risk.  
-If you find a bug, please submit an issue!
+If you found a bug, please submit an issue!
 
 ## Example
 
