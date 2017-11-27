@@ -20,8 +20,8 @@ namespace EasyRoute
 
         private static object Call(object obj, Type t, string path)
         {
-            var context = path.StartsWith('/') ? Settings.Root : obj;
-            var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            var context = path.StartsWith("/") ? Settings.Root : obj;
+            var segments = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             for (var i = 0; i < segments.Length; i++)
             {
                 var type = context != null ? context.GetType() : t;
