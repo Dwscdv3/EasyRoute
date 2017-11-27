@@ -6,17 +6,17 @@ using static EasyRoute.Utils;
 
 namespace EasyRoute
 {
-    public static class IDirectoryHelper
+    public static class ObjectHelper
     {
-        public static object Call(this IDirectory dir, string path)
+        public static object Call(this object obj, string path)
         {
-            var wd = path.StartsWith('/') ? Settings.Root : dir;
+            var context = path.StartsWith('/') ? Settings.Root : obj;
             var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
             for (var i = 0; i < segments.Length; i++)
             {
                 var segment = segments[i];
                 var args = segment.Split(',').Select(s => s.Trim()).ToArray();
-                var methods = wd.GetType().GetMethods()
+                var methods = context.GetType().GetMethods()
                     .Where(m => m.GetParameters().Length >= args.Length - 1)
                     .Where(m => m.GetParameters().All(p =>
                         Constants.KnownParameterTypes.Contains(p.ParameterType)))
@@ -39,24 +39,45 @@ namespace EasyRoute
                         }
                         return false;
                     })
-                    .OrderByDescending(m => m, new MethodInfoComparer())
+                    .OrderBy(m => m, new MethodInfoComparer())
                     .ToArray();
                 if (methods.Length <= 0)
                 {
                     throw new Exception("Method not found.");
                 }
+                var success = false;
                 foreach (var method in methods)
                 {
                     var methodParams = method.GetParameters();
+                    if (methodParams.Length != args.Length - 1)
+                    {
+                        continue;
+                    }
                     var actualParams = new object[methodParams.Length];
+                    var exit = false;
                     for (var j = 1; j < args.Length; j++)
                     {
                         var t = methodParams[j - 1].ParameterType;
-                        actualParams[j - 1] = TryParse(args[j], t);
+                        if (args[j] == "")
+                        {
+                            continue;
+                        }
+                        var arg = TryParse(args[j], t);
+                        if (arg == null)
+                        {
+                            exit = true;
+                            break;
+                        }
+                        actualParams[j - 1] = arg;
+                    }
+                    if (exit)
+                    {
+                        continue;
                     }
                     try
                     {
-                        wd = method.Invoke(wd, actualParams);
+                        context = method.Invoke(context, actualParams);
+                        success = true;
                     }
                     catch (Exception) // Manually check type to improve performance
                     {
@@ -64,8 +85,12 @@ namespace EasyRoute
                     }
                     break;
                 }
+                if (!success)
+                {
+                    throw new Exception("Parameters not match.");
+                }
             }
-            return wd;
+            return context;
         }
 
         private static object TryParse(string s, Type t)
@@ -112,9 +137,9 @@ namespace EasyRoute
             }
         }
 
-        public static void SetAsRoot(this IDirectory dir)
+        public static void SetAsRoot(this object obj)
         {
-            Settings.Root = dir;
+            Settings.Root = obj;
         }
     }
 }

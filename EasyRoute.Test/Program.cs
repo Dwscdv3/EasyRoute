@@ -11,17 +11,29 @@ namespace EasyRoute.Test
             var obj = new MyDirectory();
             obj.SetAsRoot();
             Console.WriteLine(obj.Call("/greet,Dwscdv3/toupper"));
-            Console.WriteLine(obj.Call("greet,Dwscdv3/toupper"));
+            Console.WriteLine(obj.Call("greet,1000"));
+            Console.WriteLine(obj.Call("greet,1000,"));
+            Console.WriteLine(obj.Call("greet,1000,7"));
             Console.ReadKey(true);
         }
     }
 
-    class MyDirectory : EasyRoute.IDirectory
+    class MyDirectory
     {
         [Route("Greet")]
         public string Greeting(string s)
         {
             return $"Hello, {s}!";
+        }
+        [Route("Greet")]
+        public string Greeting(long i)
+        {
+            return $"Hello, {i.ToString("x")}!";
+        }
+        [Route("Greet")]
+        public string Greeting(int a, int b)
+        {
+            return $"Hello, {a - b}!";
         }
     }
 }

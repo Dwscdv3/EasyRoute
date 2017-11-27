@@ -19,15 +19,15 @@ namespace EasyRoute
             {
                 if (paramType == typeof(int) || paramType == typeof(uint))
                 {
-                    acc += 10000;
+                    acc += 100;
                 }
                 else if (paramType == typeof(long) || paramType == typeof(ulong))
                 {
-                    acc += 100;
+                    acc += 10000;
                 }
                 else if (paramType == typeof(string))
                 {
-                    acc += 1;
+                    acc += 1000000;
                 }
             }
             return acc;
