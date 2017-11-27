@@ -13,7 +13,7 @@ namespace EasyRoute.Test
             Console.WriteLine(obj.Call("/greet,Dwscdv3/toupper"));
             Console.WriteLine(obj.Call("greet,1000"));
             Console.WriteLine(obj.Call("greet,1000,"));
-            Console.WriteLine(obj.Call("greet,1000,7"));
+            Console.WriteLine(EasyRoute.ObjectHelper.Call(typeof(MyDirectory), "greet,1000,7"));
             Console.ReadKey(true);
         }
     }
@@ -31,7 +31,7 @@ namespace EasyRoute.Test
             return $"Hello, {i.ToString("x")}!";
         }
         [Route("Greet")]
-        public string Greeting(int a, int b)
+        public static string Greeting(int a, int b)
         {
             return $"Hello, {a - b}!";
         }
