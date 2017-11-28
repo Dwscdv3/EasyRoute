@@ -13,9 +13,6 @@ namespace EasyRoute
             this.routeName = routeName;
         }
 
-        public string GetRouteName()
-        {
-            return routeName;
-        }
+        public string GetRouteName() => routeName;
     }
 }

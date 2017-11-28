@@ -7,10 +7,7 @@ namespace EasyRoute
 {
     public class MethodInfoComparer : IComparer<MethodInfo>
     {
-        public int Compare(MethodInfo x, MethodInfo y)
-        {
-            return CalculatePriority(x) - CalculatePriority(y);
-        }
+        public int Compare(MethodInfo x, MethodInfo y) => CalculatePriority(x) - CalculatePriority(y);
 
         int CalculatePriority(MethodInfo m)
         {

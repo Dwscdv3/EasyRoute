@@ -8,15 +8,9 @@ namespace EasyRoute.Extensions
 {
     public static class ObjectHelper
     {
-        public static object Call(this object obj, string path)
-        {
-            return Call(obj, null, path);
-        }
+        public static object Call(this object obj, string path) => Call(obj, null, path);
 
-        public static object Call(this Type t, string path)
-        {
-            return Call(null, t, path);
-        }
+        public static object Call(this Type t, string path) => Call(null, t, path);
 
         private static object Call(object obj, Type t, string path)
         {
@@ -37,9 +31,8 @@ namespace EasyRoute.Extensions
             return context;
         }
 
-        private static MethodInfo[] FilterMethods(Type t, string[] args)
-        {
-            return t.GetMethods()
+        private static MethodInfo[] FilterMethods(Type t, string[] args) =>
+            t.GetMethods()
                 .Where(m => m.GetParameters().Length >= args.Length - 1)
                 .Where(m => m.GetParameters().All(p =>
                     Constants.KnownParameterTypes.Contains(p.ParameterType)))
@@ -64,7 +57,6 @@ namespace EasyRoute.Extensions
                 })
                 .OrderBy(m => m, new MethodInfoComparer())
                 .ToArray();
-        }
 
         private static object TryInvoke(object context, MethodInfo[] methods, string[] args)
         {
@@ -160,9 +152,6 @@ namespace EasyRoute.Extensions
             }
         }
 
-        public static void SetAsRoot(this object obj)
-        {
-            Settings.Root = obj;
-        }
+        public static void SetAsRoot(this object obj) => Settings.Root = obj;
     }
 }
