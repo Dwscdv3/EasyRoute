@@ -7,7 +7,7 @@ namespace EasyRoute
     [Routable]
     public class RoutableObject
     {
-        public object Call(string path,params object[] param)
+        public virtual object Call(string path,params object[] param)
         {
             var pathList = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             if (pathList.Length <= 0)
@@ -55,7 +55,7 @@ namespace EasyRoute
 
         }
 
-        public PropertyInfo GetProperty(string name)
+        protected PropertyInfo GetProperty(string name)
         {
             return this.GetType().GetProperties().Where(
                     property => property.GetCustomAttributes(true).Where(
@@ -70,7 +70,7 @@ namespace EasyRoute
                 ).FirstOrDefault();
         }
 
-        public static PropertyInfo GetProperty(Type type, string name)
+        protected static PropertyInfo GetProperty(Type type, string name)
         {
             return type.GetProperties().Where(
                     property => property.GetCustomAttributes(true).Where(
@@ -84,12 +84,12 @@ namespace EasyRoute
                     ).FirstOrDefault() != null
                 ).FirstOrDefault();
         }
-        public static PropertyInfo GetProperty<T>(string name)
+        protected static PropertyInfo GetProperty<T>(string name)
         {
             return GetProperty(typeof(T), name);
         }
 
-        public FieldInfo GetField(string name)
+        protected FieldInfo GetField(string name)
         {
             return this.GetType().GetFields().Where(
                     field => field.GetCustomAttributes(true).Where(
@@ -103,7 +103,7 @@ namespace EasyRoute
                     ).FirstOrDefault() != null
                 ).FirstOrDefault();
         }
-        public static FieldInfo GetField(Type type , string name)
+        protected static FieldInfo GetField(Type type , string name)
         {
             return type.GetFields().Where(
                     field => field.GetCustomAttributes(true).Where(
@@ -117,12 +117,12 @@ namespace EasyRoute
                     ).FirstOrDefault() != null
                 ).FirstOrDefault();
         }
-        public static FieldInfo GetField<T>(string name)
+        protected static FieldInfo GetField<T>(string name)
         {
             return GetField(typeof(T), name);
         }
 
-        public MethodInfo GetMethod(string methodName)
+        protected MethodInfo GetMethod(string methodName)
         {
             return this.GetType().GetMethods().Where(
                 method => method.GetCustomAttributes(true).Where(
@@ -137,7 +137,7 @@ namespace EasyRoute
             ).FirstOrDefault();
 
         }
-        public static MethodInfo GetMethod(Type type, string methodName)
+        protected static MethodInfo GetMethod(Type type, string methodName)
         {
             return type.GetMethods().Where(
                    method => method.GetCustomAttributes(true).Where(
@@ -151,7 +151,7 @@ namespace EasyRoute
                    ).FirstOrDefault() != null
                ).FirstOrDefault();
         }
-        public static MethodInfo GetMethod<T>(string methodName)
+        protected static MethodInfo GetMethod<T>(string methodName)
         {
             return GetMethod(typeof(T), methodName);
 
